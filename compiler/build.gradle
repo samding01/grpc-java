@@ -47,6 +47,10 @@ model {
       }
     }
     gcc(Gcc) {
+      target("linux_s390x") {
+       cppCompiler.executable = "/usr/bin/gcc"
+     }
+
     }
     clang(Clang) {
     }
@@ -59,11 +63,16 @@ model {
     x86_64 {
       architecture "x86_64"
     }
+     linux_s390x {
+      architecture "s390x"
+      operatingSystem "linux"
+    }
+
   }
 
   components {
     java_plugin(NativeExecutableSpec) {
-      if (arch in ['x86_32', 'x86_64']) {
+      if (arch in ['x86_32', 'x86_64',  's390x']) {
         // If arch is not within the defined platforms, we do not specify the
         // targetPlatform so that Gradle will choose what is appropriate.
         targetPlatform arch
